@@ -7,6 +7,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.processing.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -15,9 +17,9 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class AnemoneBlockEntity extends BlockEntity implements IAnimatable {
+public class AnemoneBlockEntity extends BlockEntity implements GeoAnimatable {
 
-    AnimationFactory factory = new AnimationFactory(this);
+    AnimationState factory = new AnimationState(this);
 
     public AnemoneBlockEntity(BlockPos pos, BlockState state) {
         super(AnglingEntities.ANEMONE, pos, state);

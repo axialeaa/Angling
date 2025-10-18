@@ -19,10 +19,12 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
@@ -40,12 +42,12 @@ import static com.eightsidedsquare.angling.core.AnglingMod.MOD_ID;
 public class AnglingClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
+        BlockRenderLayerMap.putBlocks(BlockRenderLayer.CUTOUT,
                 AnglingBlocks.ROE, AnglingBlocks.DUCKWEED,
                 AnglingBlocks.OYSTERS, AnglingBlocks.CLAM,
                 AnglingBlocks.SEA_SLUG_EGGS, AnglingBlocks.PAPYRUS,
                 AnglingBlocks.SARGASSUM);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(), AnglingBlocks.ALGAE);
+        BlockRenderLayerMap.putBlocks(BlockRenderLayer.TRANSLUCENT, AnglingBlocks.ALGAE);
 
         EntityRendererRegistry.register(AnglingEntities.FRY, FryEntityRenderer::new);
         EntityRendererRegistry.register(AnglingEntities.SUNFISH, BasicEntityRenderer.create(new SunfishEntityModel()));
@@ -83,7 +85,7 @@ public class AnglingClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(AnglingParticles.ALGAE, AlgaeParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(AnglingParticles.WORM, WormParticle.Factory::new);
 
-        ModelPredicateProviderRegistry.register(AnglingItems.DONGFISH_BUCKET, new Identifier(MOD_ID, "has_horngus"), this::dongfishBucketItemHasHorngus);
+        ModelPredicateProviderRegistry.register(AnglingItems.DONGFISH_BUCKET, Identifier.of(MOD_ID, "has_horngus"), this::dongfishBucketItemHasHorngus);
 
     }
 

@@ -5,9 +5,9 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
 import java.util.LinkedHashMap;
@@ -24,14 +24,14 @@ public record CrabVariant(Identifier texture, TagKey<Biome> biomeTag) {
     public static final CrabVariant BLUE_CLAW = create("blue_claw", AnglingBiomeTags.BLUE_CLAW_CRAB_BIOMES);
 
     public static final Registry<CrabVariant> REGISTRY = FabricRegistryBuilder
-            .createDefaulted(CrabVariant.class, new Identifier(MOD_ID, "crab_variant"), new Identifier(MOD_ID, "dungeness"))
+            .createDefaulted(CrabVariant.class, Identifier.of(MOD_ID, "crab_variant"), Identifier.of(MOD_ID, "dungeness"))
             .attribute(RegistryAttribute.SYNCED).buildAndRegister();
 
     public String getTranslationKey() {
         return "crab_variant." + this.getId().getNamespace() + "." + this.getId().getPath();
     }
 
-    public static final TrackedDataHandler<CrabVariant> TRACKED_DATA_HANDLER = TrackedDataHandler.of(REGISTRY);
+    public static final TrackedDataHandler<CrabVariant> TRACKED_DATA_HANDLER = TrackedDataHandler.create(REGISTRY);
 
     public Identifier getId() {
         return REGISTRY.getId(this);
@@ -46,8 +46,8 @@ public record CrabVariant(Identifier texture, TagKey<Biome> biomeTag) {
     }
 
     private static CrabVariant create(String name, TagKey<Biome> biomeTag) {
-        CrabVariant pattern = new CrabVariant(new Identifier(MOD_ID, "textures/entity/crab/" + name + ".png"), biomeTag);
-        VARIANTS.put(pattern, new Identifier(MOD_ID, name));
+        CrabVariant pattern = new CrabVariant(Identifier.of(MOD_ID, "textures/entity/crab/" + name + ".png"), biomeTag);
+        VARIANTS.put(pattern, Identifier.of(MOD_ID, name));
         return pattern;
     }
 
@@ -61,7 +61,7 @@ public record CrabVariant(Identifier texture, TagKey<Biome> biomeTag) {
         public static final TagKey<CrabVariant> NATURAL_VARIANTS = of("natural_variants");
 
         private static TagKey<CrabVariant> of(String id) {
-            return of(new Identifier(MOD_ID, id));
+            return of(Identifier.of(MOD_ID, id));
         }
 
         public static TagKey<CrabVariant> of(Identifier id) {

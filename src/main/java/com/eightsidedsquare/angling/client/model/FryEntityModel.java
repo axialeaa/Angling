@@ -11,6 +11,6 @@ public class FryEntityModel extends BasicEntityModel<FryEntity> {
     }
     @Override
     public Identifier getTextureResource(FryEntity object) {
-        return new Identifier(MOD_ID, "textures/entity/fry/fry_innards.png");
+        return Identifier.of(MOD_ID, "textures/entity/fry/fry_innards.png");
     }
 }

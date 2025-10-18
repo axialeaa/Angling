@@ -6,18 +6,20 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.NearestVisibleLivingEntitySensor;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.server.world.ServerWorld;
 
 public class PelicanAttackablesSensor extends NearestVisibleLivingEntitySensor {
 
+
     @Override
-    protected boolean matches(LivingEntity entity, LivingEntity target) {
+    protected boolean matches(ServerWorld world, LivingEntity entity, LivingEntity target) {
         return entity instanceof PelicanEntity pelicanEntity &&
-                !pelicanEntity.hasEntityInBeak() &&
-                !(target instanceof MobEntity mob && (mob.isPersistent() || mob.hasCustomName())) &&
-                !(target instanceof Bucketable bucketable && bucketable.isFromBucket()) &&
-                target.distanceTo(entity) < 40 &&
-                PelicanBrain.canPutInBeak(target) &&
-                !entity.getBrain().hasMemoryModule(MemoryModuleType.HAS_HUNTING_COOLDOWN);
+               !pelicanEntity.hasEntityInBeak() &&
+               !(target instanceof MobEntity mob && (mob.isPersistent() || mob.hasCustomName())) &&
+               !(target instanceof Bucketable bucketable && bucketable.isFromBucket()) &&
+               target.distanceTo(entity) < 40 &&
+               PelicanBrain.canPutInBeak(target) &&
+               !entity.getBrain().hasMemoryModule(MemoryModuleType.HAS_HUNTING_COOLDOWN);
     }
 
     @Override

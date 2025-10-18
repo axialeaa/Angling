@@ -27,9 +27,9 @@ public class FryEntityRenderer extends GeoEntityRenderer<FryEntity> {
     }
 
      static class FryEntityLayerRenderer extends GeoLayerRenderer<FryEntity> {
-         private static final Identifier OUTSIDE_LAYER = new Identifier(MOD_ID, "textures/entity/fry/fry.png");
-         private static final Identifier INSIDE_LAYER = new Identifier(MOD_ID, "textures/entity/fry/fry_innards.png");
-         private static final Identifier MODEL = new Identifier(MOD_ID, "geo/fry.geo.json");
+         private static final Identifier OUTSIDE_LAYER = Identifier.of(MOD_ID, "textures/entity/fry/fry.png");
+         private static final Identifier INSIDE_LAYER = Identifier.of(MOD_ID, "textures/entity/fry/fry_innards.png");
+         private static final Identifier MODEL = Identifier.of(MOD_ID, "geo/fry.geo.json");
 
         public FryEntityLayerRenderer(IGeoRenderer<FryEntity> entityRendererIn) {
             super(entityRendererIn);

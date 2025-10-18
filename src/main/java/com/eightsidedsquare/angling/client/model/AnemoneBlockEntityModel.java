@@ -2,29 +2,33 @@ package com.eightsidedsquare.angling.client.model;
 
 import com.eightsidedsquare.angling.common.entity.AnemoneBlockEntity;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animation.Animation;
+import software.bernie.geckolib.model.DefaultedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.base.GeoRenderState;
 
 import static com.eightsidedsquare.angling.core.AnglingMod.MOD_ID;
 
-public class AnemoneBlockEntityModel extends AnimatedGeoModel<AnemoneBlockEntity> {
+public class AnemoneBlockEntityModel extends GeoModel<AnemoneBlockEntity> {
+
     @Override
-    public Identifier getModelResource(AnemoneBlockEntity object) {
-        return new Identifier(MOD_ID, "geo/anemone.geo.json");
+    public Identifier getModelResource(GeoRenderState geoRenderState) {
+        return Identifier.of(MOD_ID, "geo/anemone.geo.json");
     }
 
     @Override
-    public Identifier getTextureResource(AnemoneBlockEntity entity) {
-        return new Identifier(MOD_ID, "textures/entity/anemone/anemone.png");
+    public Identifier getTextureResource(GeoRenderState geoRenderState) {
+        return Identifier.of(MOD_ID, "textures/entity/anemone/anemone.png");
     }
 
     @Override
     public Identifier getAnimationResource(AnemoneBlockEntity animatable) {
-        return new Identifier(MOD_ID, "animations/anemone.animation.json");
+        return Identifier.of(MOD_ID, "animations/anemone.animation.json");
     }
 
     @Override
-    public void setLivingAnimations(AnemoneBlockEntity entity, Integer uniqueID) {
-
-        super.setLivingAnimations(entity, uniqueID);
+    public @Nullable Animation getAnimation(AnemoneBlockEntity animatable, String name) throws RuntimeException {
+        return super.getAnimation(animatable, name);
     }
 }

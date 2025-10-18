@@ -4,9 +4,9 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -25,7 +25,7 @@ public record SeaSlugPattern(@Nullable Identifier texture) {
     public static final SeaSlugPattern RINGS = create("rings", false);
 
     public static final Registry<SeaSlugPattern> REGISTRY = FabricRegistryBuilder
-            .createDefaulted(SeaSlugPattern.class, new Identifier(MOD_ID, "sea_slug_pattern"), new Identifier(MOD_ID, "none"))
+            .createDefaulted(SeaSlugPattern.class, Identifier.of(MOD_ID, "sea_slug_pattern"), Identifier.of(MOD_ID, "none"))
             .attribute(RegistryAttribute.SYNCED).buildAndRegister();
 
     public String getTranslationKey() {
@@ -47,8 +47,8 @@ public record SeaSlugPattern(@Nullable Identifier texture) {
     }
 
     private static SeaSlugPattern create(String name, boolean empty) {
-        SeaSlugPattern pattern = new SeaSlugPattern(empty ? null : new Identifier(MOD_ID, "textures/entity/sea_slug/" + name + ".png"));
-        PATTERNS.put(pattern, new Identifier(MOD_ID, name));
+        SeaSlugPattern pattern = new SeaSlugPattern(empty ? null : Identifier.of(MOD_ID, "textures/entity/sea_slug/" + name + ".png"));
+        PATTERNS.put(pattern, Identifier.of(MOD_ID, name));
         return pattern;
     }
 
@@ -62,7 +62,7 @@ public record SeaSlugPattern(@Nullable Identifier texture) {
         public static final TagKey<SeaSlugPattern> NATURAL_PATTERNS = of("natural_patterns");
 
         private static TagKey<SeaSlugPattern> of(String id) {
-            return of(new Identifier(MOD_ID, id));
+            return of(Identifier.of(MOD_ID, id));
         }
 
         public static TagKey<SeaSlugPattern> of(Identifier id) {

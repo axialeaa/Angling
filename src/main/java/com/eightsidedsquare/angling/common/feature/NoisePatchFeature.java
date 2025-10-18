@@ -18,7 +18,6 @@ public class NoisePatchFeature extends Feature<NoisePatchFeatureConfig> {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public boolean generate(FeatureContext<NoisePatchFeatureConfig> ctx) {
         NoisePatchFeatureConfig config = ctx.getConfig();
         BlockPos pos = ctx.getOrigin();
@@ -38,7 +37,7 @@ public class NoisePatchFeature extends Feature<NoisePatchFeatureConfig> {
                 BlockPos blockPos = pos.add(x, 0, z);
                 if(value > threshold) {
 
-                    BlockState state = blockStateProvider.getBlockState(random, blockPos);
+                    BlockState state = blockStateProvider.get(random, blockPos);
                     if(state.canPlaceAt(world, blockPos))
                         world.setBlockState(blockPos, state, Block.NOTIFY_LISTENERS);
                 }

@@ -4,17 +4,18 @@ import com.eightsidedsquare.angling.cca.AnglingEntityComponents;
 import com.eightsidedsquare.angling.core.AnglingBlocks;
 import com.eightsidedsquare.angling.core.AnglingParticles;
 import com.eightsidedsquare.angling.core.tags.AnglingBlockTags;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.entity.passive.FishEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.Items;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -22,12 +23,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-@SuppressWarnings("deprecation")
 public class AlgaeBlock extends MultifaceGrowthBlock implements Waterloggable, Fertilizable {
 
     private static final BooleanProperty WATERLOGGED;
@@ -39,19 +40,25 @@ public class AlgaeBlock extends MultifaceGrowthBlock implements Waterloggable, F
         grower = new LichenGrower(new GrowChecker(this));
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    @Override
+    public MapCodec<? extends MultifaceGrowthBlock> getCodec() {
+        return null;
+    }
+
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         if (state.get(WATERLOGGED)) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+            tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+        return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
     }
 
     public boolean canReplace(BlockState state, ItemPlacementContext context) {
         return !context.getStack().isOf(Items.GLOW_LICHEN) || super.canReplace(state, context);
     }
 
-    public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
         return canGrow(world, pos, state);
     }
 
@@ -82,7 +89,8 @@ public class AlgaeBlock extends MultifaceGrowthBlock implements Waterloggable, F
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
-    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+    @Override
+    protected boolean isTransparent(BlockState state) {
         return state.getFluidState().isEmpty();
     }
 
@@ -151,11 +159,11 @@ public class AlgaeBlock extends MultifaceGrowthBlock implements Waterloggable, F
             double x = random.nextGaussian() + pos.getX();
             double y = random.nextGaussian() + pos.getY();
             double z = random.nextGaussian() + pos.getZ();
-            if(world.getBlockState(new BlockPos(x, y, z)).getFluidState().isIn(FluidTags.WATER)) {
+            if(world.getBlockState(BlockPos.ofFloored(x, y, z)).getFluidState().isIn(FluidTags.WATER)) {
                 double velocityX = random.nextGaussian() * 0.01d;
                 double velocityY = random.nextGaussian() * 0.01d;
                 double velocityZ = random.nextGaussian() * 0.01d;
-                world.addParticle(AnglingParticles.ALGAE, x, y, z, velocityX, velocityY, velocityZ);
+                world.addParticleClient(AnglingParticles.ALGAE, x, y, z, velocityX, velocityY, velocityZ);
             }
         }
     }

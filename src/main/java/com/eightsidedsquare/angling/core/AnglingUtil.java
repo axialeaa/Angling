@@ -7,10 +7,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 
@@ -21,7 +22,7 @@ import java.util.function.Function;
 public class AnglingUtil {
 
     public static <T> List<T> getTagValues(World world, TagKey<T> tagKey) {
-        return world.getRegistryManager().get(tagKey.registry()).getEntryList(tagKey).map(entries -> entries.stream().map(RegistryEntry::value).toList()).orElse(List.of());
+        return world.getRegistryManager().getOrThrow(tagKey.registryRef()).getEntryList(tagKey).map(entries -> entries.stream().map(RegistryEntry::value).toList()).orElse(List.of());
     }
 
     public static <T> T getRandomTagValue(World world, TagKey<T> tagKey, Random random) {
@@ -30,7 +31,7 @@ public class AnglingUtil {
 
     public static NbtCompound entityToNbt(Entity entity, boolean stripData) {
         NbtCompound nbt = entity.writeNbt(new NbtCompound());
-        nbt.putString("id", Registry.ENTITY_TYPE.getId(entity.getType()).toString());
+        nbt.putString("id", Registries.ENTITY_TYPE.getId(entity.getType()).toString());
         if(stripData){
             stripEntityNbt(nbt);
         }

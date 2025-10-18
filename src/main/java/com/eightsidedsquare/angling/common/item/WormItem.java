@@ -21,7 +21,7 @@ public class WormItem extends Item {
         stack.decrement(1);
         world.setBlockState(pos, state);
         world.playSound(null, pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d, AnglingSounds.ITEM_WORM_USE, SoundCategory.BLOCKS, 1, 1);
-        return ActionResult.success(world.isClient);
+        return ActionResult.SUCCESS;
     }
 
     @Override

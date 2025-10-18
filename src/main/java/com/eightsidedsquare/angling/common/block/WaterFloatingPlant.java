@@ -1,5 +1,6 @@
 package com.eightsidedsquare.angling.common.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -11,13 +12,18 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
-@SuppressWarnings("deprecation")
 public class WaterFloatingPlant extends PlantBlock implements Fertilizable {
     protected static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 1, 16);
 
     public WaterFloatingPlant(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    protected MapCodec<? extends PlantBlock> getCodec() {
+        return null;
     }
 
     @Override
@@ -32,7 +38,7 @@ public class WaterFloatingPlant extends PlantBlock implements Fertilizable {
     }
 
     @Override
-    public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
         for(Direction d : Direction.Type.HORIZONTAL) {
             BlockPos offsetPos = pos.offset(d).down();
             if(canPlantOnTop(world.getBlockState(offsetPos), world, offsetPos) && world.getBlockState(offsetPos.up()).isAir()) {

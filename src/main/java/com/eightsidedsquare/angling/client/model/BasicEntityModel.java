@@ -3,17 +3,18 @@ package com.eightsidedsquare.angling.client.model;
 import com.eightsidedsquare.angling.core.AnglingUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
-import javax.annotation.Nullable;
-
 import static com.eightsidedsquare.angling.core.AnglingMod.MOD_ID;
 
-public class BasicEntityModel<A extends LivingEntity & IAnimatable> extends AnimatedGeoModel<A> {
+public class BasicEntityModel<A extends LivingEntity & GeoAnimatable> extends GeoModel<A> {
 
     private final Identifier model;
     private final Identifier texture;
@@ -31,9 +32,9 @@ public class BasicEntityModel<A extends LivingEntity & IAnimatable> extends Anim
 
     public BasicEntityModel(String name, boolean liesOutOfWater, @Nullable String head) {
         this(
-                new Identifier(MOD_ID,"geo/" + name + ".geo.json"),
-                new Identifier(MOD_ID, "textures/entity/" + name + "/" + name + ".png"),
-                new Identifier(MOD_ID, "animations/" + name + ".animation.json"), liesOutOfWater, head);
+                Identifier.of(MOD_ID,"geo/" + name + ".geo.json"),
+                Identifier.of(MOD_ID, "textures/entity/" + name + "/" + name + ".png"),
+                Identifier.of(MOD_ID, "animations/" + name + ".animation.json"), liesOutOfWater, head);
 
     }
 

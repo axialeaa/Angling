@@ -31,7 +31,7 @@ public class FishLayRoeGoal extends MoveToTargetPosGoal {
     public FishLayRoeGoal(WaterCreatureEntity entity) {
         super(entity, 1.25d, 6, 6);
         this.entity = (FishEntity) entity;
-        this.world = entity.world;
+        this.world = entity.getWorld();
         this.setControls(EnumSet.of(Control.MOVE));
     }
 

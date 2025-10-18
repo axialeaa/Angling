@@ -4,9 +4,9 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -39,7 +39,7 @@ public record SeaSlugColor(int color) {
     public static final SeaSlugColor FOLLY = create("folly", 0xFF004A);
 
     public static final Registry<SeaSlugColor> REGISTRY = FabricRegistryBuilder
-            .createDefaulted(SeaSlugColor.class, new Identifier(MOD_ID, "sea_slug_color"), new Identifier(MOD_ID, "ivory"))
+            .createDefaulted(SeaSlugColor.class, Identifier.of(MOD_ID, "sea_slug_color"), Identifier.of(MOD_ID, "ivory"))
             .attribute(RegistryAttribute.SYNCED).buildAndRegister();
 
     public static final TrackedDataHandler<SeaSlugColor> TRACKED_DATA_HANDLER = TrackedDataHandler.of(REGISTRY);
@@ -62,7 +62,7 @@ public record SeaSlugColor(int color) {
 
     private static SeaSlugColor create(String name, int color) {
         SeaSlugColor seaSlugColor = new SeaSlugColor(color);
-        COLORS.put(seaSlugColor, new Identifier(MOD_ID, name));
+        COLORS.put(seaSlugColor, Identifier.of(MOD_ID, name));
         return seaSlugColor;
     }
 
@@ -77,7 +77,7 @@ public record SeaSlugColor(int color) {
         public static final TagKey<SeaSlugColor> PATTERN_COLORS = of("pattern_colors");
 
         private static TagKey<SeaSlugColor> of(String id) {
-            return of(new Identifier(MOD_ID, id));
+            return of(Identifier.of(MOD_ID, id));
         }
 
         public static TagKey<SeaSlugColor> of(Identifier id) {

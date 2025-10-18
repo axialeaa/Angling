@@ -4,7 +4,6 @@ import com.eightsidedsquare.angling.core.AnglingEntities;
 import com.eightsidedsquare.angling.core.AnglingItems;
 import com.eightsidedsquare.angling.core.tags.AnglingEntityTypeTags;
 import net.minecraft.block.Block;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 

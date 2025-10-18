@@ -10,7 +10,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -68,7 +68,7 @@ public class AnglingItems {
     }
 
     private static <T extends Item> T create(String name, T item) {
-        ITEMS.put(item, new Identifier(MOD_ID, name));
+        ITEMS.put(item, Identifier.of(MOD_ID, name));
         return item;
     }
 

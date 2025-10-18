@@ -5,7 +5,7 @@ import com.eightsidedsquare.angling.core.AnglingBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
 
@@ -46,7 +46,7 @@ public class EatAlgaeGoal extends MoveToTargetPosGoal {
         super.tick();
         BlockState state = entity.getWorld().getBlockState(entity.getBlockPos());
         if(!finished && state.isOf(AnglingBlocks.ALGAE) && state.getFluidState().isIn(FluidTags.WATER)) {
-            AlgaeBlock.deteriorate(entity.getBlockPos(), entity.world);
+            AlgaeBlock.deteriorate(entity.getBlockPos(), entity.getWorld());
             finished = true;
         }
     }

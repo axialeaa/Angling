@@ -7,12 +7,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -32,13 +32,13 @@ public interface WormyBlock {
             decrementWorms(state, pos, world);
             player.giveItemStack(new ItemStack(AnglingItems.WORM));
             world.playSound(null, pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d, AnglingSounds.ITEM_WORM_USE, SoundCategory.BLOCKS, 1, 1);
-            return ActionResult.success(world.isClient);
+            return ActionResult.SUCCESS;
         }else if(stack.isOf(AnglingItems.WORM) && state.get(WORMS) < 3) {
             if(!player.getAbilities().creativeMode)
                 stack.decrement(1);
             incrementWorms(state, pos, world);
             world.playSound(null, pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d, AnglingSounds.ITEM_WORM_USE, SoundCategory.BLOCKS, 1, 1);
-            return ActionResult.success(world.isClient);
+            return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
     }
@@ -83,7 +83,7 @@ public interface WormyBlock {
                 double x = mutable.getX() + 0.5d + random.nextGaussian() * 0.3f;
                 double y = mutable.getY();
                 double z = mutable.getZ() + 0.5d + random.nextGaussian() * 0.3f;
-                world.addParticle(AnglingParticles.WORM, x, y, z, 0, 0, 0);
+                world.addParticleClient(AnglingParticles.WORM, x, y, z, 0, 0, 0);
             }
         }
     }

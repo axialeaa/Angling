@@ -1,7 +1,10 @@
 package com.eightsidedsquare.angling.cca;
 
 import com.eightsidedsquare.angling.core.AnglingBlocks;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import net.minecraft.storage.NbtReadView;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -9,24 +12,19 @@ import net.minecraft.block.MultifaceGrowthBlock;
 import net.minecraft.entity.passive.FishEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 public class FishSpawningComponent implements AutoSyncedComponent {
 
     private final FishEntity entity;
     private int loveTicks;
     private int loveCooldown;
-    @Nullable
-    private NbtCompound mateData;
+    private NbtReadView mateData;
     private boolean carryingRoe;
     private boolean canGrowUp;
     private boolean wasFed;
@@ -37,11 +35,11 @@ public class FishSpawningComponent implements AutoSyncedComponent {
     }
 
     @Nullable
-    public NbtCompound getMateData() {
+    public NbtReadView getMateData() {
         return mateData;
     }
 
-    public void setMateData(@Nullable NbtCompound mateData) {
+    public void setMateData(@Nullable NbtReadView mateData) {
         this.mateData = mateData;
     }
 
@@ -122,24 +120,24 @@ public class FishSpawningComponent implements AutoSyncedComponent {
     }
 
     @Override
-    public void readFromNbt(@NotNull NbtCompound tag) {
-        loveTicks = tag.getInt("LoveTicks");
-        loveCooldown = tag.getInt("LoveCooldown");
-        carryingRoe = tag.getBoolean("CarryingRoe");
-        canGrowUp = tag.getBoolean("CanGrowUp");
-        if(tag.contains("MateData", NbtElement.COMPOUND_TYPE)) {
-            mateData = tag.getCompound("MateData");
+    public void readData(ReadView readView) {
+        loveTicks = readView.getInt("LoveTicks", 0);
+        loveCooldown = readView.getInt("LoveCooldown", 0);
+        carryingRoe = readView.getBoolean("CarryingRoe", false);
+        canGrowUp = readView.getBoolean("CanGrowUp", true);
+        if(readView.contains("MateData")) {
+            mateData = readView.getReadView("MateData");
         }
-        wasFed = tag.getBoolean("WasFed");
+        wasFed = readView.getBoolean("WasFed", false);
     }
 
     @Override
-    public void writeToNbt(@NotNull NbtCompound tag) {
-        tag.putInt("LoveTicks", loveTicks);
-        tag.putInt("LoveCooldown", loveCooldown);
-        tag.putBoolean("CarryingRoe", carryingRoe);
-        tag.putBoolean("CanGrowUp", canGrowUp);
-        tag.put("MateData", Objects.requireNonNullElseGet(mateData, NbtCompound::new));
-        tag.putBoolean("WasFed", wasFed);
+    public void writeData(WriteView writeView) {
+        writeView.putInt("LoveTicks", loveTicks);
+        writeView.putInt("LoveCooldown", loveCooldown);
+        writeView.putBoolean("CarryingRoe", carryingRoe);
+        writeView.putBoolean("CanGrowUp", canGrowUp);
+        writeView.put("MateData", mateData);
+        writeView.putBoolean("WasFed", wasFed);
     }
 }

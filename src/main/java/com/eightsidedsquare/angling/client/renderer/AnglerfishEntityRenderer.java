@@ -14,7 +14,7 @@ import static com.eightsidedsquare.angling.core.AnglingMod.MOD_ID;
 
 public class AnglerfishEntityRenderer extends GeoEntityRenderer<AnglerfishEntity> {
 
-    private static final Identifier OVERLAY = new Identifier(MOD_ID, "textures/entity/anglerfish/anglerfish_overlay.png");
+    private static final Identifier OVERLAY = Identifier.of(MOD_ID, "textures/entity/anglerfish/anglerfish_overlay.png");
 
     public AnglerfishEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new BasicEntityModel<>("anglerfish", true));

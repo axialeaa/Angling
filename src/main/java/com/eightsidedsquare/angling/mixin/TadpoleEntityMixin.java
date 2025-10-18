@@ -40,7 +40,7 @@ public abstract class TadpoleEntityMixin extends FishEntity {
             if(!player.getAbilities().creativeMode)
                 stack.decrement(1);
             component.setCanGrowUp(false);
-            cir.setReturnValue(ActionResult.success(world.isClient));
+            cir.setReturnValue(ActionResult.SUCCESS);
         }
     }
 

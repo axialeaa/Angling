@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.FishEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -20,12 +21,12 @@ public class FishMateGoal extends Goal {
     private final FishEntity entity;
     @Nullable
     private FishEntity mate;
-    private final World world;
+    private final ServerWorld world;
     private static final TargetPredicate VALID_MATE_PREDICATE = TargetPredicate.createNonAttackable().setBaseMaxDistance(8.0D).ignoreVisibility();
 
     public FishMateGoal(WaterCreatureEntity entity) {
         this.entity = (FishEntity) entity;
-        this.world = entity.getWorld();
+        this.world = getServerWorld(entity);
         setControls(EnumSet.of(Control.MOVE));
     }
 
@@ -85,7 +86,7 @@ public class FishMateGoal extends Goal {
     @Nullable
     private FishEntity findMate() {
 
-        List<? extends FishEntity> list = world.getTargets(entity.getClass(), VALID_MATE_PREDICATE, entity, entity.getBoundingBox().expand(16.0D));
+        List<? extends FishEntity> list = world.getEntitiesByClass(entity.getClass(), entity.getBoundingBox().expand(16.0D), fishEntity -> VALID_MATE_PREDICATE.test());
         double d = 16;
         FishEntity fishEntity = null;
 

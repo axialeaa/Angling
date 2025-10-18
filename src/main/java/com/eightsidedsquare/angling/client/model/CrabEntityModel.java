@@ -14,7 +14,7 @@ public class CrabEntityModel extends AnimatedGeoModel<CrabEntity> {
 
     @Override
     public Identifier getModelResource(CrabEntity entity) {
-        return new Identifier(MOD_ID, "geo/crab.geo.json");
+        return Identifier.of(MOD_ID, "geo/crab.geo.json");
     }
 
     @Override
@@ -24,7 +24,7 @@ public class CrabEntityModel extends AnimatedGeoModel<CrabEntity> {
 
     @Override
     public Identifier getAnimationResource(CrabEntity entity) {
-        return new Identifier(MOD_ID, "animations/crab.animation.json");
+        return Identifier.of(MOD_ID, "animations/crab.animation.json");
     }
 
     @Override @SuppressWarnings("unchecked")

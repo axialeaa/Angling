@@ -4,9 +4,9 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,7 +29,7 @@ public record SunfishVariant(Identifier texture) {
     public static final SunfishVariant DIANSUS_DIANSUR = create("diansus_diansur");
 
     public static final Registry<SunfishVariant> REGISTRY = FabricRegistryBuilder
-            .createDefaulted(SunfishVariant.class, new Identifier(MOD_ID, "sunfish_variant"), new Identifier(MOD_ID, "pumpkinseed"))
+            .createDefaulted(SunfishVariant.class, Identifier.of(MOD_ID, "sunfish_variant"), Identifier.of(MOD_ID, "pumpkinseed"))
             .attribute(RegistryAttribute.SYNCED).buildAndRegister();
 
     public static final TrackedDataHandler<SunfishVariant> TRACKED_DATA_HANDLER = TrackedDataHandler.of(REGISTRY);
@@ -52,8 +52,8 @@ public record SunfishVariant(Identifier texture) {
 
 
     private static SunfishVariant create(String name) {
-        SunfishVariant variant = new SunfishVariant(new Identifier(MOD_ID, "textures/entity/sunfish/" + name + ".png"));
-        VARIANTS.put(variant, new Identifier(MOD_ID, name));
+        SunfishVariant variant = new SunfishVariant(Identifier.of(MOD_ID, "textures/entity/sunfish/" + name + ".png"));
+        VARIANTS.put(variant, Identifier.of(MOD_ID, name));
         return variant;
     }
 
@@ -68,7 +68,7 @@ public record SunfishVariant(Identifier texture) {
         public static final TagKey<SunfishVariant> PELICAN_BEAK_VARIANTS = of("pelican_beak_variants");
 
         private static TagKey<SunfishVariant> of(String id) {
-            return of(new Identifier(MOD_ID, id));
+            return of(Identifier.of(MOD_ID, id));
         }
 
         public static TagKey<SunfishVariant> of(Identifier id) {

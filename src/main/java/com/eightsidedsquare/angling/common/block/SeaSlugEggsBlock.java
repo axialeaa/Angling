@@ -3,6 +3,7 @@ package com.eightsidedsquare.angling.common.block;
 import com.eightsidedsquare.angling.common.entity.SeaSlugEggsBlockEntity;
 import com.eightsidedsquare.angling.core.AnglingEntities;
 import com.eightsidedsquare.angling.core.AnglingUtil;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
@@ -22,11 +23,10 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
 public class SeaSlugEggsBlock extends BlockWithEntity implements Waterloggable {
 
     private static final BooleanProperty WATERLOGGED;
@@ -35,6 +35,11 @@ public class SeaSlugEggsBlock extends BlockWithEntity implements Waterloggable {
     public SeaSlugEggsBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(WATERLOGGED, false));
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return null;
     }
 
     @Override
@@ -60,15 +65,16 @@ public class SeaSlugEggsBlock extends BlockWithEntity implements Waterloggable {
         return getDefaultState().with(WATERLOGGED, bl);
     }
 
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         if (state.get(WATERLOGGED)) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+            tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
         if(!canPlaceAt(state, world, pos)) {
             return Blocks.AIR.getDefaultState();
         }
 
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+        return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
     }
 
     public FluidState getFluidState(BlockState state) {
@@ -82,7 +88,7 @@ public class SeaSlugEggsBlock extends BlockWithEntity implements Waterloggable {
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         if(state.get(WATERLOGGED)) {
-            world.createAndScheduleBlockTick(pos, this, getHatchTime(world.getRandom()));
+            world.scheduleBlockTick(pos, this, getHatchTime(world.getRandom()));
         }
     }
 
@@ -102,7 +108,7 @@ public class SeaSlugEggsBlock extends BlockWithEntity implements Waterloggable {
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        Vec3d offset = state.getModelOffset(world, pos);
+        Vec3d offset = state.getModelOffset(pos);
         return SHAPE.offset(offset.x, offset.y, offset.z);
     }
 

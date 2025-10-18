@@ -2,8 +2,8 @@ package com.eightsidedsquare.angling.core.world;
 
 import com.eightsidedsquare.angling.core.tags.AnglingBiomeTags;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.minecraft.tag.BiomeTags;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;

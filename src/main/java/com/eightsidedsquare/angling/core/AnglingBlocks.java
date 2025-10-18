@@ -5,9 +5,10 @@ import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class AnglingBlocks {
 
     private static <T extends Block> T create(String name, T block, ItemGroup itemGroup) {
 
-        BLOCKS.put(block, new Identifier(MOD_ID, name));
+        BLOCKS.put(block, Identifier.of(MOD_ID, name));
         if (itemGroup != null) {
             ITEMS.put(new BlockItem(block, new Item.Settings().group(itemGroup)), BLOCKS.get(block));
         }
@@ -43,7 +44,7 @@ public class AnglingBlocks {
     }
 
     public static void init() {
-        BLOCKS.keySet().forEach(block -> Registry.register(Registry.BLOCK, BLOCKS.get(block), block));
-        ITEMS.keySet().forEach(item -> Registry.register(Registry.ITEM, ITEMS.get(item), item));
+        BLOCKS.keySet().forEach(block -> Registry.register(Registries.BLOCK, BLOCKS.get(block), block));
+        ITEMS.keySet().forEach(item -> Registry.register(Registries.ITEM, ITEMS.get(item), item));
     }
 }

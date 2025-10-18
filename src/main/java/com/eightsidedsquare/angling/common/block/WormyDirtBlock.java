@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
@@ -13,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class WormyDirtBlock extends Block implements WormyBlock {
     public WormyDirtBlock(Settings settings) {
         super(settings);
@@ -47,7 +47,7 @@ public class WormyDirtBlock extends Block implements WormyBlock {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         return addOrRemoveWorms(state, world, pos, player, hand);
     }
 }

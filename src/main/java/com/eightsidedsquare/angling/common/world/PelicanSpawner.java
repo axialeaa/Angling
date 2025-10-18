@@ -2,6 +2,8 @@ package com.eightsidedsquare.angling.common.world;
 
 import com.eightsidedsquare.angling.common.entity.PelicanEntity;
 import com.eightsidedsquare.angling.core.AnglingEntities;
+import net.minecraft.block.entity.Spawner;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EntityBucketItem;
@@ -54,4 +56,10 @@ public class PelicanSpawner implements Spawner {
         }
         return false;
     }
+
+    @Override
+    public void setEntityType(EntityType<?> type, Random random) {
+
+    }
+
 }

@@ -14,19 +14,19 @@ import static com.eightsidedsquare.angling.core.AnglingMod.MOD_ID;
 public class StarfishBlockEntityModel extends AnimatedGeoModel<StarfishBlockEntity> {
     @Override
     public Identifier getModelResource(StarfishBlockEntity object) {
-        return new Identifier(MOD_ID, "geo/starfish.geo.json");
+        return Identifier.of(MOD_ID, "geo/starfish.geo.json");
     }
 
     @Override
     public Identifier getTextureResource(StarfishBlockEntity entity) {
         if(entity != null && !((StarfishBlock) entity.getCachedState().getBlock()).isDead())
-            return new Identifier(MOD_ID, "textures/entity/starfish/starfish.png");
-        return new Identifier(MOD_ID, "textures/entity/starfish/dead_starfish.png");
+            return Identifier.of(MOD_ID, "textures/entity/starfish/starfish.png");
+        return Identifier.of(MOD_ID, "textures/entity/starfish/dead_starfish.png");
     }
 
     @Override
     public Identifier getAnimationResource(StarfishBlockEntity animatable) {
-        return new Identifier(MOD_ID, "animations/starfish.animation.json");
+        return Identifier.of(MOD_ID, "animations/starfish.animation.json");
     }
 
     @Override

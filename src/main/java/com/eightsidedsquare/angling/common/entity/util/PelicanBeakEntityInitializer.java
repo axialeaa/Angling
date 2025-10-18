@@ -12,7 +12,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,7 +50,7 @@ public abstract class PelicanBeakEntityInitializer {
             public NbtCompound initialize(NbtCompound nbt, Random random, World world) {
                 int variant = random.nextInt(5) == 0 ?
                         (random.nextInt(2) | random.nextInt(6) << 8 | random.nextInt(15) << 16 | random.nextInt(15) << 24)
-                        : Util.getRandom(TropicalFishEntity.COMMON_VARIANTS, random);
+                        : Util.getRandom(TropicalFishEntity.COMMON_VARIANTS, random).getId();
                 nbt.putInt("Variant", variant);
                 return nbt;
             }
@@ -58,7 +58,7 @@ public abstract class PelicanBeakEntityInitializer {
         registerInitializer(EntityType.AXOLOTL, new PelicanBeakEntityInitializer() {
             @Override
             public NbtCompound initialize(NbtCompound nbt, Random random, World world) {
-                nbt.putInt("Variant", AxolotlEntity.Variant.getRandomNatural(random).getId());
+                nbt.putInt("Variant", AxolotlEntity.Variant.getRandomNatural(random).getIndex());
                 return nbt;
             }
         });
